@@ -26,6 +26,17 @@ class Mega(object):
             options = {}
         self.options = options
 
+    # FIX API for duplicity
+    # Wisdom of the Ancients (https://xkcd.com/979/)
+    # http://askubuntu.com/questions/459792/mega-object-has-no-attribute-get-name-from-file-when-writing-files-to-mega
+
+    def get_name_from_file(self, file):
+        for key, value in file.items():
+            if 'a' in value and 'n' in value['a']:
+                 return value['a']['n']
+        raise RequestError("Could not find the file attribute.")
+
+
     def login(self, email=None, password=None):
         if email:
             self._login_user(email, password)
